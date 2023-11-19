@@ -21,8 +21,14 @@ const http = async ({ path, method = "POST", data = {}, params = {} }) => {
       Authorization: `Bearer ${await AsyncStorage.getItem("USER_TOKEN")}`,
     },
   };
-
+  // try {
   const response = await axios(request);
-
+  // console.log(response.data);
+  // if (response.data.error) {
+  //   throw new Error(response.data.error);
+  // }
+  // } catch (error) {
+  //   return error;
+  // }
   return response.data.data;
 };

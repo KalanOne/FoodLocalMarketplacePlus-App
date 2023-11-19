@@ -3,10 +3,16 @@ import { View } from "react-native";
 import { Button, Surface, Text } from "react-native-paper";
 import Logo from "../../../assets/Logo.png";
 import { StyleSheet } from "react-native";
+import useAuthStore from "../../contexts/AuthStore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export { Welcome };
 
-function Welcome({ loading, onStarted }) {
+function Welcome({ onStarted }) {
+  const handleLogout = () => {
+    useAuthStore.setState({ userToken: null });
+    AsyncStorage.removeItem("USER_TOKEN");
+  };
   return (
     <Surface style={styles.container}>
       <Text variant="displayLarge" style={styles.title}>
@@ -15,12 +21,15 @@ function Welcome({ loading, onStarted }) {
       <Image source={Logo} style={styles.image} />
       <Button
         mode="elevated"
-        loading={loading}
+        // loading={loading}
         // labelStyle={{ fontSize: 20 }}
         onPress={onStarted}
         style={styles.button}
       >
         Get started
+      </Button>
+      <Button icon="camera" mode="contained" onPress={handleLogout}>
+        Borrar token
       </Button>
     </Surface>
   );

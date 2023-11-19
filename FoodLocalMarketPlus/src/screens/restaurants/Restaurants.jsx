@@ -7,9 +7,10 @@ import {
   View,
 } from "react-native";
 import { DrawerContainer } from "../../components/DrawerContainer";
-import { Chip, Searchbar, Text } from "react-native-paper";
+import { Button, Chip, Searchbar, Text } from "react-native-paper";
 import { useState } from "react";
-import Logo from "../../../assets/Logo.png";
+import { useNavigation } from "@react-navigation/native";
+import useAuthStore from "../../contexts/AuthStore";
 
 export { Restaurants };
 
@@ -94,15 +95,16 @@ const CATEGORIES = [
 function Restaurants() {
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState([]);
-  console.log(category);
+  const navigation = useNavigation();
+  console.log("Hola");
 
   const onChangeSearch = (query) => setSearchQuery(query);
 
-  const handleSelectCategory = (id) => {
-    if (category.includes(id)) {
-      setCategory(category.filter((item) => item !== id));
+  const handleSelectCategory = (title) => {
+    if (category.includes(title)) {
+      setCategory(category.filter((item) => item !== title));
     } else {
-      setCategory([...category, id]);
+      setCategory([...category, title]);
     }
   };
 
@@ -110,7 +112,7 @@ function Restaurants() {
     <DrawerContainer>
       <View style={styles.container}>
         <Text variant="headlineLarge" style={styles.title}>
-          Delicious foor for you
+          Delicious food for you
         </Text>
         <Searchbar
           placeholder="Search"
@@ -151,6 +153,9 @@ function Restaurants() {
               <TouchableOpacity
                 key={item.id}
                 style={styles.restaurantConatiner}
+                onPress={() => {
+                  navigation.navigate("Saucers", { restaurant: item });
+                }}
               >
                 <Image
                   source={{

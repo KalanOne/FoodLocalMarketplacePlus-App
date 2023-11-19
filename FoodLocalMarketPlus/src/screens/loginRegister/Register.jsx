@@ -38,7 +38,6 @@ function Register() {
       return await registerUser(data);
     },
     onSuccess: (response) => {
-      console.log(response);
       Toast.show({
         type: "success",
         text1: "Message:",
@@ -47,13 +46,15 @@ function Register() {
       reset();
     },
     onError: (error) => {
-      const errorData = error.msg;
-      console.log("errorData", errorData);
-      console.log("error", error);
+      // console.log(error.response.data.msg);
+      // const errorData = error.msg;
+      // console.log("errorData", errorData);
+      // console.log("error", error);
       Toast.show({
         type: "error",
         text1: "Message:",
-        text2: "Register failed, please try again",
+        text2: `Register failed - ${error.response.data.msg}`,
+        autoHide: false,
       });
     },
   });

@@ -11,7 +11,7 @@ import useAuthStore from "../../contexts/AuthStore";
 
 export { Login };
 
-function Login({ setDisplay, setStarted }) {
+function Login() {
   const {
     control,
     handleSubmit,
@@ -24,40 +24,70 @@ function Login({ setDisplay, setStarted }) {
     },
   });
 
+  const {
+    userToken,
+    email,
+    display,
+    started,
+    setUserToken,
+    setEmail,
+    setDisplay,
+    setStarted,
+    reset: resetAuthStore,
+  } = useAuthStore();
+
   const loginMutation = useMutation({
     mutationFn: async (data) => {
+      setEmail(data.email);
+      await AsyncStorage.setItem("USER_EMAIL", data.email);
       return await loginUser(data);
     },
     onSuccess: async (token) => {
-      try {
-        await AsyncStorage.setItem("USER_TOKEN", token);
-        useAuthStore.setState({ userToken: token });
-        reset();
-        Toast.show({
-          type: "success",
-          text1: "Message:",
-          text2: "Login successfull",
-        });
-        setDisplay("Start");
-        setStarted(true);
-        // console.log("Datos guardados con éxito");
-      } catch (error) {
-        console.error("Error al guardar datos:", error);
-        Toast.show({
-          type: "error",
-          text1: "Message:",
-          text2: "Login failed, please try again",
-        });
-      }
+      // try {
+      //   await AsyncStorage.setItem("USER_TOKEN", token);
+      //   useAuthStore.setState({ userToken: token });
+      //   reset();
+      //   Toast.show({
+      //     type: "success",
+      //     text1: "Message:",
+      //     text2: "Login successfull",
+      //   });
+      //   setDisplay("Start");
+      //   setStarted(true);
+      //   // console.log("Datos guardados con éxito");
+      // } catch (error) {
+      //   console.error("Error al guardar datosssssss:", error);
+      //   Toast.show({
+      //     type: "error",
+      //     text1: "Message:",
+      //     text2: "Login failed, please try again",
+      //   });
+      // }
+      await AsyncStorage.setItem("USER_TOKEN", token);
+      // useAuthStore.setState({ userToken: token });
+      setUserToken(token);
+      setStarted(true);
+      setDisplay("App");
+      reset();
+      Toast.show({
+        type: "success",
+        text1: "Message:",
+        text2: "Login successfull",
+        autoHide: false,
+      });
     },
-    onError: (error) => {
-      const errorData = error.msg;
-      console.log("errorData", errorData);
-      console.log("error", error);
+    onError: async (error) => {
+      // const errorData = error.msg;
+      // console.log("errorData", errorData);
+      console.log("error", error.response.data.msg);
+      console.log("error2", error.response);
+      setEmail(null);
+      await AsyncStorage.removeItem("USER_EMAIL");
       Toast.show({
         type: "error",
         text1: "Message:",
-        text2: "Login failed, please try again",
+        text2: `Login failed, please try again - ${error.response.data.msg}`,
+        autoHide: false,
       });
     },
   });

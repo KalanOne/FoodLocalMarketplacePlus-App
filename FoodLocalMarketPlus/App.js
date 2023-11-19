@@ -5,30 +5,41 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Welcome } from "./src/screens/welcome/Welcome";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Start } from "./src/screens/start/Start";
 import useAuthStore from "./src/contexts/AuthStore";
 import { MainDrawerNavigation } from "./src/routes/MainDrawerNavigation";
 
 const queryClient = new QueryClient();
 
 export default function App() {
-  const [loading, setLoading] = useState(false);
-  const [display, setDisplay] = useState("Login");
-  const [started, setStarted] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // const [display, setDisplay] = useState("Login");
+  // const [started, setStarted] = useState(false);
+  const {
+    userToken,
+    email,
+    display,
+    started,
+    setUserToken,
+    setEmail,
+    setDisplay,
+    setStarted,
+    reset,
+  } = useAuthStore();
 
   useEffect(() => {
     const getUserToken = async () => {
       try {
-        setLoading(true);
         const token = await AsyncStorage.getItem("USER_TOKEN");
+        const email = await AsyncStorage.getItem("USER_EMAIL");
         if (token) {
-          useAuthStore.setState({ userToken: token });
-          setDisplay("Start");
+          setUserToken(token);
+          setEmail(email);
+          setDisplay("App");
         } else {
           setDisplay("Login");
-          useAuthStore.setState({ userToken: null });
+          setUserToken(null);
+          setEmail(null);
         }
-        setLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -42,15 +53,8 @@ export default function App() {
         {started && display === "Login" && (
           <LoginRegister setDisplay={setDisplay} setStarted={setStarted} />
         )}
-        {started && display === "Start" && (
-          <MainDrawerNavigation
-            setDisplay={setDisplay}
-            setStarted={setStarted}
-          />
-        )}
-        {!started && (
-          <Welcome loading={loading} onStarted={() => setStarted(true)} />
-        )}
+        {started && display === "App" && <MainDrawerNavigation />}
+        {!started && <Welcome onStarted={() => setStarted(true)} />}
         {/* <LoginRegister /> */}
       </PaperProvider>
       <Toast />

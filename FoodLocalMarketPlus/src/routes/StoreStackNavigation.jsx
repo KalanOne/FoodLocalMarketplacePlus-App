@@ -1,5 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { Restaurants } from "../screens/restaurants/Restaurants";
+import { Saucers } from "../screens/saucers/Saucers";
 
 export { StoreStackNavigation };
 
@@ -12,6 +13,7 @@ function StoreStackNavigation() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Restaurants" component={Restaurants} />
+      <Stack.Screen name="Saucers" component={Saucers} />
     </Stack.Navigator>
   );
 }

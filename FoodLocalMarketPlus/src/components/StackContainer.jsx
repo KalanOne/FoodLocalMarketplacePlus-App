@@ -3,18 +3,18 @@ import React from "react";
 import { View, StatusBar, StyleSheet } from "react-native";
 import { Button, IconButton, Surface } from "react-native-paper";
 
-export { DrawerContainer };
+export { StackContainer };
 
-function DrawerContainer({ children }) {
+function StackContainer({ children }) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Surface style={styles.drawerNavigationContainer}>
-        <View style={styles.drawerNavigation}>
+      <Surface style={styles.StackNavigationContainer}>
+        <View style={styles.StackNavigation}>
           <IconButton
-            icon="menu"
+            icon="keyboard-backspace"
             mode="text"
-            onPress={() => navigation.toggleDrawer()}
+            onPress={() => navigation.goBack()}
           ></IconButton>
         </View>
       </Surface>
@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f7fa",
     flex: 1,
   },
-  drawerNavigationContainer: {
+  StackNavigationContainer: {
     paddingTop: StatusBar.currentHeight,
     paddingHorizontal: 10,
   },
-  drawerNavigation: {
+  StackNavigation: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
