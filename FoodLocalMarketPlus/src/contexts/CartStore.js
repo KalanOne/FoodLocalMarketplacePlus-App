@@ -6,11 +6,11 @@ const useCartStore = create((set) => ({
   productos: [],
   // Funciones del carrito
   resetCart: () => set({ idRestaurante: null, montoTotal: 0, productos: [] }),
-  addToCart: (producto) =>
-    set((state) => ({
-      productos: [...state.productos, producto],
-      montoTotal: state.montoTotal + producto.precio * producto.cantidad,
-    })),
+  // addToCart: (producto) =>
+  //   set((state) => ({
+  //     productos: [...state.productos, producto],
+  //     montoTotal: state.montoTotal + producto.precio * producto.cantidad,
+  //   })),
   updateCartItemQuantity: (productoId, nuevaCantidad) =>
     set((state) => {
       const nuevosProductos = state.productos.map((producto) =>

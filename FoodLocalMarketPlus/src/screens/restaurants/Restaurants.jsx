@@ -11,6 +11,8 @@ import { Button, Chip, Searchbar, Text } from "react-native-paper";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import useAuthStore from "../../contexts/AuthStore";
+import { useQuery } from "react-query";
+import { getRestaurantsProvs } from "./api/restaurantsApi";
 
 export { Restaurants };
 
@@ -92,11 +94,25 @@ const CATEGORIES = [
   },
 ];
 
+const TIPOS = [
+  {
+    id: "1",
+    title: "Proveedor",
+  },
+  {
+    id: "2",
+    title: "Restaurante",
+  },
+];
+
 function Restaurants() {
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState([]);
   const navigation = useNavigation();
-  console.log("Hola");
+  // const [restaurantsData, setRestaurantsData] = useState([]);
+  // const { userToken } = useAuthStore();
+  // console.log(userToken);
+  // console.log("Hola");
 
   const onChangeSearch = (query) => setSearchQuery(query);
 
@@ -107,6 +123,25 @@ function Restaurants() {
       setCategory([...category, title]);
     }
   };
+
+  const restaurantsQuery = useQuery({
+    queryKey: ["restaurants"],
+    queryFn: async () => {
+      return await getRestaurantsProvs();
+    },
+    keepPreviousData: true,
+    onSuccess: (data) => {
+      // console.log("data", data);
+      // setRestaurantsData(data.data);
+    },
+    onError: (error) => {
+      // console.log("error", error);
+    },
+  });
+
+  const restaurantsData = restaurantsQuery.data;
+  // console.log("restaurantsData", restaurantsData);
+  // console.log("restaurantsQuery", restaurantsQuery.data);
 
   return (
     <DrawerContainer>
@@ -125,15 +160,17 @@ function Restaurants() {
             style={styles.scrollContainerHorizontal}
             showsHorizontalScrollIndicator={false}
           >
-            {CATEGORIES.map((categorie) => (
+            {TIPOS.map((categorie) => (
               <Chip
                 // icon="information"
                 mode="outlined"
                 key={categorie.id}
-                selected={category.includes(categorie.title)}
+                selected={category.includes(categorie.title.toLowerCase())}
                 showSelectedOverlay={true}
                 showSelectedCheck={true}
-                onPress={() => handleSelectCategory(categorie.title)}
+                onPress={() =>
+                  handleSelectCategory(categorie.title.toLowerCase())
+                }
                 style={{ marginRight: 10 }}
               >
                 {categorie.title}
@@ -142,41 +179,53 @@ function Restaurants() {
           </ScrollView>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {DATA.map((item) => {
-            if (
-              (category.length > 0 && !category.includes(item.category)) ||
-              !item.title.toLowerCase().includes(searchQuery.toLowerCase())
-            ) {
-              return null;
-            }
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={styles.restaurantConatiner}
-                onPress={() => {
-                  navigation.navigate("Saucers", { restaurant: item });
-                }}
-              >
-                <Image
-                  source={{
-                    uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
-                  }} // Ruta de tu imagen
-                  style={styles.backgroundImage}
-                />
-                <View style={styles.restaurantInfoContainer}>
-                  <Text variant="headlineMedium" style={{ marginBottom: 10 }}>
-                    {item.title}
-                  </Text>
-                  <Text variant="titleLarge" style={{ marginBottom: 10 }}>
-                    {item.description}
-                  </Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Chip mode="flat">{item.category}</Chip>
+          {restaurantsData ? (
+            restaurantsData.map((item) => {
+              if (
+                (category.length > 0 && !category.includes(item.tipo)) ||
+                !item.nombre.toLowerCase().includes(searchQuery.toLowerCase())
+              ) {
+                return null;
+              }
+              return (
+                <TouchableOpacity
+                  key={item.email}
+                  style={styles.restaurantConatiner}
+                  onPress={() => {
+                    navigation.navigate("Saucers", { restaurant: item });
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri:
+                        item.profilePic == "algo/Ruta"
+                          ? "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png"
+                          : item.profilePic,
+                    }}
+                    style={styles.backgroundImage}
+                  />
+                  <View style={styles.restaurantInfoContainer}>
+                    <Text variant="headlineMedium" style={{ marginBottom: 10 }}>
+                      {item.nombre}
+                    </Text>
+                    <Text variant="titleSmall" style={{ marginBottom: 10 }}>
+                      {item.direccion}
+                    </Text>
+                    <View style={{ flexDirection: "row" }}>
+                      <Chip mode="flat">{item.tipo}</Chip>
+                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+                </TouchableOpacity>
+              );
+            })
+          ) : (
+            <Text
+              variant="displaySmall"
+              style={{ textAlign: "center", marginTop: 30 }}
+            >
+              No restaurants found
+            </Text>
+          )}
         </ScrollView>
       </View>
     </DrawerContainer>

@@ -40,6 +40,7 @@ function Login() {
     mutationFn: async (data) => {
       setEmail(data.email);
       await AsyncStorage.setItem("USER_EMAIL", data.email);
+      console.log("data", data);
       return await loginUser(data);
     },
     onSuccess: async (token) => {
@@ -79,7 +80,7 @@ function Login() {
     onError: async (error) => {
       // const errorData = error.msg;
       // console.log("errorData", errorData);
-      console.log("error", error.response.data.msg);
+      // console.log("error", error.response.data.msg);
       console.log("error2", error.response);
       setEmail(null);
       await AsyncStorage.removeItem("USER_EMAIL");

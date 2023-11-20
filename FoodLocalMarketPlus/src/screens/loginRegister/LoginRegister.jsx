@@ -13,21 +13,6 @@ export { LoginRegister };
 
 function LoginRegister({ setDisplay, setStarted }) {
   const [loginRegister, setLoginRegister] = useState("login");
-  // const [userToken, setUserToken] = useState("");
-
-  // useEffect(() => {
-  //   const getUserToken = async () => {
-  //     try {
-  //       const token = await AsyncStorage.getItem("USER_TOKEN");
-  //       console.log("token", token);
-  //       setUserToken(token);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   getUserToken();
-  //   console.log("USER_TOKEN", userToken);
-  // }, [loginRegister]);
 
   return (
     <KeyboardAvoidingView

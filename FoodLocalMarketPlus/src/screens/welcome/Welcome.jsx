@@ -28,9 +28,9 @@ function Welcome({ onStarted }) {
       >
         Get started
       </Button>
-      <Button icon="camera" mode="contained" onPress={handleLogout}>
+      {/* <Button icon="camera" mode="contained" onPress={handleLogout}>
         Borrar token
-      </Button>
+      </Button> */}
     </Surface>
   );
 }
