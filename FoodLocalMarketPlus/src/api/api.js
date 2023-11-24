@@ -14,7 +14,6 @@ const http = async ({ path, method = "POST", data = {}, params = {} }) => {
     method,
     params,
     data,
-    // url: `http://10.27.45.22:3000/${path}`,
     url: `http://192.168.1.78:3000/${path}`,
     // url: `${process.env.REACT_APP_API_URL}/api/${path}`,
     headers: {

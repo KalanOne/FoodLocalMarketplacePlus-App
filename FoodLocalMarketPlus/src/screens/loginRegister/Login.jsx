@@ -130,6 +130,7 @@ function Login() {
         mode="contained"
         onPress={handleSubmit(onSubmit)}
         style={styles.button}
+        loading={loginMutation.isLoading}
       >
         Login
       </Button>

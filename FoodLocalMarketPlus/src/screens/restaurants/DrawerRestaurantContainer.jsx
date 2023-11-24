@@ -1,47 +1,32 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React from "react";
 import { View, StatusBar, StyleSheet, TouchableOpacity } from "react-native";
 import {
   Button,
-  Dialog,
   Icon,
   IconButton,
   MD3Colors,
-  Portal,
   Surface,
   Text,
 } from "react-native-paper";
 import useCartStore from "../../contexts/CartStore";
 import { moneyFormatter } from "../../utils/formatters";
 
-export { StackSaucerContainer };
+export { DrawerRestaurantContainer };
 
-function StackSaucerContainer({ children }) {
+function DrawerRestaurantContainer({ children }) {
   const navigation = useNavigation();
   const { montoTotal, productos, resetCart } = useCartStore();
-  const [visible, setVisible] = useState(false);
   const totalProducts = productos.filter((item) => item.cantidad > 0).length;
-
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
-
-  const handleGoBack = () => {
-    if (totalProducts > 0) {
-      showDialog();
-    } else {
-      resetCart();
-      navigation.goBack();
-    }
-  };
 
   return (
     <View style={styles.container}>
-      <Surface style={styles.StackNavigationContainer}>
-        <View style={styles.StackNavigation}>
+      <Surface style={styles.drawerNavigationContainer}>
+        <View style={styles.drawerNavigation}>
           <IconButton
-            icon="keyboard-backspace"
+            icon="menu"
             mode="text"
-            onPress={navigation.goBack}
+            onPress={() => navigation.toggleDrawer()}
           ></IconButton>
         </View>
       </Surface>
@@ -53,28 +38,6 @@ function StackSaucerContainer({ children }) {
         </Surface>
       </TouchableOpacity>
       {children}
-      <Portal>
-        <Dialog visible={visible} onDismiss={hideDialog}>
-          <Dialog.Title>Alert</Dialog.Title>
-          <Dialog.Content>
-            <Text variant="bodyMedium">
-              You have items in the cart, if you exit your cart will be reset
-            </Text>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button
-              onPress={() => {
-                hideDialog();
-                resetCart();
-                navigation.goBack();
-              }}
-            >
-              Exit
-            </Button>
-            <Button onPress={hideDialog}>Cancel</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
     </View>
   );
 }
@@ -84,11 +47,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f7fa",
     flex: 1,
   },
-  StackNavigationContainer: {
+  drawerNavigationContainer: {
     paddingTop: StatusBar.currentHeight,
     paddingHorizontal: 10,
   },
-  StackNavigation: {
+  drawerNavigation: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

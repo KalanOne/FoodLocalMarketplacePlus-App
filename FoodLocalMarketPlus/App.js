@@ -19,24 +19,12 @@ import { Alert } from "react-native";
 const queryClient = new QueryClient();
 
 export default function App() {
-  // const [loading, setLoading] = useState(false);
-  // const [display, setDisplay] = useState("Login");
-  // const [started, setStarted] = useState(false);
-  const {
-    userToken,
-    email,
-    display,
-    started,
-    setUserToken,
-    setEmail,
-    setDisplay,
-    setStarted,
-    reset,
-  } = useAuthStore();
-  const [visible, setVisible] = useState(false);
+  const { display, started, setUserToken, setEmail, setDisplay, setStarted } =
+    useAuthStore();
 
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
+  // const [visible, setVisible] = useState(false);
+  // const showDialog = () => setVisible(true);
+  // const hideDialog = () => setVisible(false);
 
   useEffect(() => {
     const getUserToken = async () => {
@@ -59,15 +47,15 @@ export default function App() {
     getUserToken();
   }, []);
 
-  useEffect(() => {
-    const getPermissions = async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        showDialog();
-      }
-    };
-    getPermissions();
-  }, []);
+  // useEffect(() => {
+  //   const getPermissions = async () => {
+  //     const { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== "granted") {
+  //       showDialog();
+  //     }
+  //   };
+  //   getPermissions();
+  // }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -78,7 +66,7 @@ export default function App() {
         {started && display === "App" && <MainDrawerNavigation />}
         {!started && <Welcome onStarted={() => setStarted(true)} />}
         {/* <LoginRegister /> */}
-        <Portal>
+        {/* <Portal>
           <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Title>Alert</Dialog.Title>
             <Dialog.Content>
@@ -91,7 +79,7 @@ export default function App() {
               <Button onPress={hideDialog}>Done</Button>
             </Dialog.Actions>
           </Dialog>
-        </Portal>
+        </Portal> */}
       </PaperProvider>
       <Toast />
     </QueryClientProvider>

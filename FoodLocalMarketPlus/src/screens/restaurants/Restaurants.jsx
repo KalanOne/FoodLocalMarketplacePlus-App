@@ -1,109 +1,21 @@
 import {
   Image,
-  ImageBackground,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
-import { DrawerContainer } from "../../components/DrawerContainer";
-import { Button, Chip, Searchbar, Text } from "react-native-paper";
+import { Chip, Searchbar, Text } from "react-native-paper";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import useAuthStore from "../../contexts/AuthStore";
 import { useQuery } from "react-query";
-import { getRestaurantsProvs } from "./api/restaurantsApi";
+import {
+  getCategoriesRestaurants,
+  getRestaurantsProvs,
+} from "./api/restaurantsApi";
+import { DrawerRestaurantContainer } from "./DrawerRestaurantContainer";
 
 export { Restaurants };
-
-const DATA = [
-  {
-    id: "1",
-    title: "First Item",
-    description: "First Item description",
-    category: "Cafe",
-  },
-  {
-    id: "2",
-    title: "Second Item",
-    description: "Second Item description",
-    category: "Restaurant",
-  },
-  {
-    id: "3",
-    title: "Third Item",
-    description: "Third Item description",
-    category: "Cafe",
-  },
-  {
-    id: "4",
-    title: "Fourth Item",
-    description: "Fourth Item description",
-    category: "Bar",
-  },
-  {
-    id: "5",
-    title: "Fifth Item",
-    description: "Fifth Item description",
-    category: "Bakery",
-  },
-  {
-    id: "6",
-    title: "Sixth Item",
-    description: "Sixth Item description",
-    category: "Burger",
-  },
-  {
-    id: "7",
-    title: "Seventh Item",
-    description: "Seventh Item description",
-    category: "Pizza",
-  },
-  {
-    id: "8",
-    title: "First Item",
-    description: "First Item description",
-    category: "Bar",
-  },
-];
-
-const CATEGORIES = [
-  {
-    id: "1",
-    title: "Cafe",
-  },
-  {
-    id: "2",
-    title: "Restaurant",
-  },
-  {
-    id: "3",
-    title: "Bar",
-  },
-  {
-    id: "4",
-    title: "Bakery",
-  },
-  {
-    id: "5",
-    title: "Burger",
-  },
-  {
-    id: "6",
-    title: "Pizza",
-  },
-];
-
-const TIPOS = [
-  {
-    id: "1",
-    title: "Proveedor",
-  },
-  {
-    id: "2",
-    title: "Restaurante",
-  },
-];
 
 function Restaurants() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -130,21 +42,25 @@ function Restaurants() {
       return await getRestaurantsProvs();
     },
     keepPreviousData: true,
-    onSuccess: (data) => {
-      // console.log("data", data);
-      // setRestaurantsData(data.data);
-    },
-    onError: (error) => {
-      // console.log("error", error);
-    },
+    retry: 5,
   });
-
   const restaurantsData = restaurantsQuery.data;
+
+  const categoriesQuery = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      return await getCategoriesRestaurants();
+    },
+    keepPreviousData: true,
+    retry: 5,
+  });
+  const categoriesData = categoriesQuery.data;
+
   // console.log("restaurantsData", restaurantsData);
   // console.log("restaurantsQuery", restaurantsQuery.data);
 
   return (
-    <DrawerContainer>
+    <DrawerRestaurantContainer>
       <View style={styles.container}>
         <Text variant="headlineLarge" style={styles.title}>
           Delicious food for you
@@ -160,29 +76,28 @@ function Restaurants() {
             style={styles.scrollContainerHorizontal}
             showsHorizontalScrollIndicator={false}
           >
-            {TIPOS.map((categorie) => (
-              <Chip
-                // icon="information"
-                mode="outlined"
-                key={categorie.id}
-                selected={category.includes(categorie.title.toLowerCase())}
-                showSelectedOverlay={true}
-                showSelectedCheck={true}
-                onPress={() =>
-                  handleSelectCategory(categorie.title.toLowerCase())
-                }
-                style={{ marginRight: 10 }}
-              >
-                {categorie.title}
-              </Chip>
-            ))}
+            {categoriesData &&
+              categoriesData.map((categorie) => (
+                <Chip
+                  // icon="information"
+                  mode="outlined"
+                  key={categorie.id}
+                  selected={category.includes(categorie.id)}
+                  showSelectedOverlay={true}
+                  showSelectedCheck={true}
+                  onPress={() => handleSelectCategory(categorie.id)}
+                  style={{ marginRight: 10 }}
+                >
+                  {categorie.nombre}
+                </Chip>
+              ))}
           </ScrollView>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           {restaurantsData ? (
             restaurantsData.map((item) => {
               if (
-                (category.length > 0 && !category.includes(item.tipo)) ||
+                (category.length > 0 && !category.includes(item.idCategoria)) ||
                 !item.nombre.toLowerCase().includes(searchQuery.toLowerCase())
               ) {
                 return null;
@@ -198,7 +113,7 @@ function Restaurants() {
                   <Image
                     source={{
                       uri:
-                        item.profilePic == "algo/Ruta"
+                        item.profilePic == "providerDefault.png"
                           ? "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png"
                           : item.profilePic,
                     }}
@@ -212,7 +127,12 @@ function Restaurants() {
                       {item.direccion}
                     </Text>
                     <View style={{ flexDirection: "row" }}>
-                      <Chip mode="flat">{item.tipo}</Chip>
+                      <Chip mode="flat">
+                        {categoriesData &&
+                          categoriesData.find((cat) => {
+                            return cat.id == item.idCategoria;
+                          }).nombre}
+                      </Chip>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -228,7 +148,7 @@ function Restaurants() {
           )}
         </ScrollView>
       </View>
-    </DrawerContainer>
+    </DrawerRestaurantContainer>
   );
 }
 

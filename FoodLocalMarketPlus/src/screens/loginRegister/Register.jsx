@@ -116,6 +116,14 @@ function Register() {
           label="Phone"
           rules={{
             required: "This field is required",
+            minLength: {
+              value: 10,
+              message: "Must be 10 digits",
+            },
+            maxLength: {
+              value: 10,
+              message: "Must be 10 digits",
+            },
           }}
           errors={errors}
         />
@@ -161,6 +169,14 @@ function Register() {
           label="Zip Code"
           rules={{
             required: "This field is required",
+            minLength: {
+              value: 5,
+              message: "Must be 5 digits",
+            },
+            maxLength: {
+              value: 5,
+              message: "Must be 5 digits",
+            },
           }}
           errors={errors}
         />
@@ -170,6 +186,7 @@ function Register() {
         mode="contained"
         onPress={handleSubmit(onSubmit)}
         style={styles.button}
+        loading={registerMutation.isLoading}
       >
         Register
       </Button>

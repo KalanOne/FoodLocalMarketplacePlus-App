@@ -1,127 +1,100 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { IconButton, MD3Colors, Surface, Text } from "react-native-paper";
 import { memo, useState } from "react";
 import { moneyFormatter } from "../../utils/formatters";
+import { useNavigation } from "@react-navigation/native";
+import useCartStore from "../../contexts/CartStore";
 
-export { SaucerItem, SaucerItemMemo };
+export { SaucerItemMemo };
 
-function SaucerItem({ saucer, handleUpdateCartItemQuantity }) {
-  //   const { productos, updateCartItemQuantity } = useCartStore();
-  //   const cartItem = productos.find((item) => item.id === saucer.id);
-  console.log("saurcerID", saucer.id);
-  const [value, setValue] = useState(0);
+const SaucerItemMemo = memo(
+  ({
+    saucer,
+    handleUpdateCartItemQuantity,
+    cuantity,
+    handleDeleteFromCart,
+    handleAddToCart,
+  }) => {
+    console.log("saurcerID", saucer.id);
+    const navigation = useNavigation();
 
-  const handleIncrement = () => {
-    // Incrementar el valor
-    // cartItem.cantidad = cartItem.cantidad + 1;
-    // updateCartItemQuantity(saucer.id, cartItem.cantidad);
-    handleUpdateCartItemQuantity(saucer.id, value + 1);
-    setValue(value + 1);
-  };
+    const handleIncrement = () => {
+      // Incrementar el valor
+      // cartItem.cantidad = cartItem.cantidad + 1;
+      // updateCartItemQuantity(saucer.id, cartItem.cantidad);
+      if (cuantity === 0) {
+        handleAddToCart({
+          id: saucer.id,
+          precio: saucer.precio,
+          cantidad: 1,
+          restaurante: saucer.idProveedor,
+        });
+        return;
+      }
+      handleUpdateCartItemQuantity(saucer.id, cuantity + 1);
+    };
 
-  const handleDecrement = () => {
-    // Decrementar el valor, evitando que sea menor que el mínimo
-    // cartItem.cantidad = Math.max(cartItem.cantidad - 1, 0);
-    // updateCartItemQuantity(saucer.id, cartItem.cantidad);
-    if (value === 0) return;
-    handleUpdateCartItemQuantity(saucer.id, Math.max(value - 1, 0));
-    setValue(Math.max(value - 1, 0));
-  };
+    const handleDecrement = () => {
+      // Decrementar el valor, evitando que sea menor que el mínimo
+      // cartItem.cantidad = Math.max(cartItem.cantidad - 1, 0);
+      // updateCartItemQuantity(saucer.id, cartItem.cantidad);
+      if (cuantity === 0) return;
+      if (cuantity === 1) {
+        handleDeleteFromCart(saucer.id);
+        return;
+      }
+      handleUpdateCartItemQuantity(saucer.id, Math.max(value - 1, 0));
+    };
 
-  return (
-    <Surface style={styles.container}>
-      <Image
-        source={{
-          uri: "https://cdn7.kiwilimon.com/recetaimagen/1277/640x960/17199.jpg.webp",
-          //   uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
-        }}
-        style={styles.image}
-      />
-      <View style={styles.infoContainer}>
-        <View style={styles.infoTextsContainer}>
-          <Text variant="headlineMedium">{saucer.title}</Text>
-          <Text variant="titleSmall">{saucer.description}</Text>
-          <Text variant="titleLarge">{moneyFormatter(saucer.price)}</Text>
-        </View>
-        <View style={styles.quantityConatinarer}>
-          <IconButton
-            icon="minus"
-            iconColor={MD3Colors.primary50}
-            size={20}
-            onPress={handleDecrement}
+    return (
+      <Surface style={styles.container}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("SaucersInfo", { saucer: saucer });
+          }}
+          style={{
+            width: "40%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={{
+              uri: "https://cdn7.kiwilimon.com/recetaimagen/1277/640x960/17199.jpg.webp",
+              //   uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
+            }}
+            style={styles.image}
           />
-          <Text variant="titleLarge" style={styles.quantityText}>
-            {value ?? 0}
-          </Text>
-          <IconButton
-            icon="plus"
-            iconColor={MD3Colors.primary50}
-            size={20}
-            onPress={handleIncrement}
-          />
+        </TouchableOpacity>
+        <View style={styles.infoContainer}>
+          <View style={styles.infoTextsContainer}>
+            <Text variant="headlineMedium">{saucer.nombre}</Text>
+            <Text variant="titleSmall">{saucer.descripcion}</Text>
+            <Text variant="titleLarge">{moneyFormatter(saucer.precio)}</Text>
+          </View>
+          <View style={styles.quantityConatinarer}>
+            <IconButton
+              icon="minus"
+              iconColor={MD3Colors.primary50}
+              size={20}
+              onPress={handleDecrement}
+            />
+            <Text variant="titleLarge" style={styles.quantityText}>
+              {cuantity}
+            </Text>
+            <IconButton
+              icon="plus"
+              iconColor={MD3Colors.primary50}
+              size={20}
+              onPress={handleIncrement}
+            />
+          </View>
         </View>
-      </View>
-    </Surface>
-  );
-}
-
-const SaucerItemMemo = memo(({ saucer, handleUpdateCartItemQuantity }) => {
-  console.log("saurcerID", saucer.id);
-  const [value, setValue] = useState(0);
-
-  const handleIncrement = () => {
-    // Incrementar el valor
-    // cartItem.cantidad = cartItem.cantidad + 1;
-    // updateCartItemQuantity(saucer.id, cartItem.cantidad);
-    handleUpdateCartItemQuantity(saucer.id, value + 1);
-    setValue(value + 1);
-  };
-
-  const handleDecrement = () => {
-    // Decrementar el valor, evitando que sea menor que el mínimo
-    // cartItem.cantidad = Math.max(cartItem.cantidad - 1, 0);
-    // updateCartItemQuantity(saucer.id, cartItem.cantidad);
-    if (value === 0) return;
-    handleUpdateCartItemQuantity(saucer.id, Math.max(value - 1, 0));
-    setValue(Math.max(value - 1, 0));
-  };
-
-  return (
-    <Surface style={styles.container}>
-      <Image
-        source={{
-          uri: "https://cdn7.kiwilimon.com/recetaimagen/1277/640x960/17199.jpg.webp",
-          //   uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
-        }}
-        style={styles.image}
-      />
-      <View style={styles.infoContainer}>
-        <View style={styles.infoTextsContainer}>
-          <Text variant="headlineMedium">{saucer.title}</Text>
-          <Text variant="titleSmall">{saucer.description}</Text>
-          <Text variant="titleLarge">{moneyFormatter(saucer.price)}</Text>
-        </View>
-        <View style={styles.quantityConatinarer}>
-          <IconButton
-            icon="minus"
-            iconColor={MD3Colors.primary50}
-            size={20}
-            onPress={handleDecrement}
-          />
-          <Text variant="titleLarge" style={styles.quantityText}>
-            {value ?? 0}
-          </Text>
-          <IconButton
-            icon="plus"
-            iconColor={MD3Colors.primary50}
-            size={20}
-            onPress={handleIncrement}
-          />
-        </View>
-      </View>
-    </Surface>
-  );
-});
+      </Surface>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -133,7 +106,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   image: {
-    width: "40%",
+    width: "100%",
     // height: "100%",
     borderRadius: 10,
     resizeMode: "cover",
