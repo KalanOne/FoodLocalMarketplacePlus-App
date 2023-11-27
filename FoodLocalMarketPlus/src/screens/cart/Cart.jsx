@@ -15,9 +15,16 @@ import { CustomTextInput } from "../../components/CustomTextInput";
 export { Cart };
 
 function Cart() {
-  const { idRestaurante, productos, montoTotal } = useCartStore();
+  const { resetCart, productos, montoTotal } = useCartStore();
   const [value, setValue] = useState("Cash");
   const totalProducts = productos.filter((item) => item.cantidad > 0).length;
+  const restaurantes = productos.reduce((restaurantes, producto) => {
+    // Agrega el restaurante al conjunto si aún no está presente
+    if (!restaurantes.includes(producto.restaurante)) {
+      restaurantes.push(producto.restaurante);
+    }
+    return restaurantes;
+  }, []);
   const {
     control,
     handleSubmit,
@@ -31,7 +38,7 @@ function Cart() {
   });
 
   const onSubmitCard = (data) => {
-    console.log("card", data);
+    // console.log("card", data);
     const productosData = productos
       .filter((item) => item.cantidad > 0)
       .map((item) => ({
@@ -40,11 +47,11 @@ function Cart() {
         cantidad: item.cantidad,
       }));
     const sendData = {
-      restaurant: idRestaurante,
+      restaurantes: restaurantes,
       productos: productosData,
       pagado: true,
     };
-    console.log("sendData", sendData);
+    console.log("sendDataCard", sendData);
     reset();
   };
 
@@ -58,11 +65,11 @@ function Cart() {
         cantidad: item.cantidad,
       }));
     const sendData = {
-      restaurant: idRestaurante,
+      restaurantes: restaurantes,
       productos: productosData,
       pagado: false,
     };
-    console.log("sendData", sendData);
+    console.log("sendDataCash", sendData);
   };
 
   return (
@@ -142,6 +149,13 @@ function Cart() {
                 style={{ marginTop: 30 }}
               >
                 Proceed
+              </Button>
+              <Button
+                mode="contained"
+                onPress={resetCart}
+                style={{ marginTop: 30 }}
+              >
+                Reset Cart
               </Button>
             </>
           ) : (

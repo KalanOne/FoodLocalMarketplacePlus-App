@@ -27,6 +27,8 @@ function DrawerRestaurantContainer({ children }) {
             icon="menu"
             mode="text"
             onPress={() => navigation.toggleDrawer()}
+            iconColor={MD3Colors.primary50}
+            // backgroundColor={MD3Colors.primary80}
           ></IconButton>
         </View>
       </Surface>

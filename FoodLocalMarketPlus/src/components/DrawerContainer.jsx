@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, StatusBar, StyleSheet } from "react-native";
-import { Button, IconButton, Surface } from "react-native-paper";
+import { Button, IconButton, MD3Colors, Surface } from "react-native-paper";
 
 export { DrawerContainer };
 
@@ -15,6 +15,7 @@ function DrawerContainer({ children }) {
             icon="menu"
             mode="text"
             onPress={() => navigation.toggleDrawer()}
+            iconColor={MD3Colors.primary50}
           ></IconButton>
         </View>
       </Surface>

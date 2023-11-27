@@ -1,6 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { MD3Colors } from "react-native-paper";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import {
   Image,
   ScrollView,
@@ -8,10 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SaucerItem, SaucerItemMemo } from "./SaucerItem";
+import { SaucerItemMemo } from "./SaucerItem";
 import { StackSaucerContainer } from "./StackSaucerContainer";
 import useCartStore from "../../contexts/CartStore";
-import { useEffect } from "react";
 
 export { Saucers };
 
@@ -21,7 +19,7 @@ function Saucers() {
   const { productos, updateCartItemQuantity, deleteFromCart, addToCart } =
     useCartStore();
   const navigation = useNavigation();
-  console.log("productos", productos);
+  // console.log("productos", productos);
 
   const handleUpdateCartItemQuantity = useCallback(
     (id, cantidad) => {
@@ -45,8 +43,8 @@ function Saucers() {
   );
 
   return (
-    <StackSaucerContainer>
-      <TouchableOpacity
+    <StackSaucerContainer restaurant={restaurant}>
+      {/* <TouchableOpacity
         onPress={() => {
           navigation.navigate("RestaurantsInfo", { restaurant: restaurant });
         }}
@@ -60,7 +58,7 @@ function Saucers() {
           }} // Ruta de tu imagen
           style={styles.image}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <View style={styles.container}>
         <View>
           <ScrollView showsVerticalScrollIndicator={false}>

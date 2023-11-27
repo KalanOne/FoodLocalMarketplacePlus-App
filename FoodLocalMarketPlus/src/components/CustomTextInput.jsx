@@ -12,6 +12,8 @@ function CustomTextInput({
   rules,
   errors,
   secureTextEntry = false,
+  disabled = false,
+  keyboardType = "default",
 }) {
   return (
     <Controller
@@ -26,6 +28,8 @@ function CustomTextInput({
             value={value}
             error={errors[name]}
             secureTextEntry={secureTextEntry}
+            disabled={disabled}
+            keyboardType={keyboardType}
           />
           {errors[name] && (
             <Text style={{ color: "rgb(186, 26, 26)" }}>

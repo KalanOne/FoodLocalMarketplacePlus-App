@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { Chip, Searchbar, Text } from "react-native-paper";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import {
   getCategoriesRestaurants,
@@ -21,6 +21,7 @@ function Restaurants() {
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState([]);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   // const [restaurantsData, setRestaurantsData] = useState([]);
   // const { userToken } = useAuthStore();
   // console.log(userToken);
@@ -43,6 +44,8 @@ function Restaurants() {
     },
     keepPreviousData: true,
     retry: 5,
+    refetchInterval: 60000,
+    enabled: isFocused,
   });
   const restaurantsData = restaurantsQuery.data;
 

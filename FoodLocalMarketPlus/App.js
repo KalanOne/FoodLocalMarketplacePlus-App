@@ -16,7 +16,16 @@ import { MainDrawerNavigation } from "./src/routes/MainDrawerNavigation";
 import * as Location from "expo-location";
 import { Alert } from "react-native";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 3, // Número de intentos antes de considerar que la consulta ha fallado
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Retraso entre intentos, utilizando un backoff exponencial
+      staleTime: 5000, // Tiempo antes de que una consulta se considere "caduca" y se vuelva a buscar automáticamente
+      refetchOnWindowFocus: true,
+    },
+  },
+});
 
 export default function App() {
   const { display, started, setUserToken, setEmail, setDisplay, setStarted } =

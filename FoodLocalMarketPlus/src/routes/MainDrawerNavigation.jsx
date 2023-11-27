@@ -10,6 +10,7 @@ import { LogOut } from "../screens/logOut/LogOut";
 import useAuthStore from "../contexts/AuthStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
+import { ProfileStackNavigation } from "./ProfileStackNavigation";
 
 export { MainDrawerNavigation };
 
@@ -42,6 +43,19 @@ function MainDrawerNavigation() {
           name="StoreStackNavigation"
           component={StoreStackNavigation}
           options={{ title: "Store" }}
+          screenOptions={{
+            unmountOnBlur: true, // Descargar componente al salir de la pantalla
+            lazy: true, // Cargar componente solo cuando se accede
+          }}
+        />
+        <Drawer.Screen
+          name="ProfileStackNavigation"
+          component={ProfileStackNavigation}
+          options={{ title: "Profile" }}
+          screenOptions={{
+            unmountOnBlur: true, // Descargar componente al salir de la pantalla
+            lazy: true, // Cargar componente solo cuando se accede
+          }}
         />
         {/* <Drawer.Screen name="LogOut" component={LogOut} /> */}
       </Drawer.Navigator>

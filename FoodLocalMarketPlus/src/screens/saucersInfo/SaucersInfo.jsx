@@ -113,12 +113,14 @@ function SaucersInfo() {
             </Text>
             <Icon source="star" color={MD3Colors.primary10} size={25} />
             <Text variant="titleLarge">
-              {(
-                saucer.resenas.reduce(
-                  (acc, review) => acc + parseInt(review.stars),
-                  0
-                ) / REVIEWS.length
-              ).toFixed(2)}
+              {saucer.resenas.length != 0
+                ? (
+                    saucer.resenas.reduce(
+                      (acc, review) => acc + parseInt(review.stars),
+                      0
+                    ) / saucer.resenas.length
+                  ).toFixed(2)
+                : 0}
             </Text>
           </View>
           <View style={styles.textsContainer}>
@@ -163,6 +165,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     textAlign: "center",
+    marginHorizontal: 10,
   },
   textsContainer: {
     flexDirection: "row",

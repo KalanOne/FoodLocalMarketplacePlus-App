@@ -1,9 +1,8 @@
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { IconButton, MD3Colors, Surface, Text } from "react-native-paper";
-import { memo, useState } from "react";
+import { memo } from "react";
 import { moneyFormatter } from "../../utils/formatters";
 import { useNavigation } from "@react-navigation/native";
-import useCartStore from "../../contexts/CartStore";
 
 export { SaucerItemMemo };
 
@@ -15,7 +14,7 @@ const SaucerItemMemo = memo(
     handleDeleteFromCart,
     handleAddToCart,
   }) => {
-    console.log("saurcerID", saucer.id);
+    // console.log("saurcerID", saucer.id);
     const navigation = useNavigation();
 
     const handleIncrement = () => {
@@ -43,7 +42,7 @@ const SaucerItemMemo = memo(
         handleDeleteFromCart(saucer.id);
         return;
       }
-      handleUpdateCartItemQuantity(saucer.id, Math.max(value - 1, 0));
+      handleUpdateCartItemQuantity(saucer.id, Math.max(cuantity - 1, 0));
     };
 
     return (
@@ -69,7 +68,7 @@ const SaucerItemMemo = memo(
         </TouchableOpacity>
         <View style={styles.infoContainer}>
           <View style={styles.infoTextsContainer}>
-            <Text variant="headlineMedium">{saucer.nombre}</Text>
+            <Text variant="headlineSmall">{saucer.nombre}</Text>
             <Text variant="titleSmall">{saucer.descripcion}</Text>
             <Text variant="titleLarge">{moneyFormatter(saucer.precio)}</Text>
           </View>
