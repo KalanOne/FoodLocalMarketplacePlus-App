@@ -45,7 +45,11 @@ function Restaurants() {
     keepPreviousData: true,
     retry: 5,
     refetchInterval: 60000,
-    enabled: isFocused,
+    // enabled: isFocused,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
   });
   const restaurantsData = restaurantsQuery.data;
 
@@ -97,7 +101,7 @@ function Restaurants() {
           </ScrollView>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {restaurantsData ? (
+          {restaurantsData && restaurantsData.length > 0 ? (
             restaurantsData.map((item) => {
               if (
                 (category.length > 0 && !category.includes(item.idCategoria)) ||

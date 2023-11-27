@@ -11,20 +11,33 @@ import { moneyFormatter } from "../../utils/formatters";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomTextInput } from "../../components/CustomTextInput";
+import { useMutation } from "react-query";
+import { useNavigation } from "@react-navigation/native";
+import { createOrder } from "./api/cartApi";
+import Toast from "react-native-toast-message";
 
 export { Cart };
 
 function Cart() {
   const { resetCart, productos, montoTotal } = useCartStore();
   const [value, setValue] = useState("Cash");
+  const navigation = useNavigation();
+
   const totalProducts = productos.filter((item) => item.cantidad > 0).length;
   const restaurantes = productos.reduce((restaurantes, producto) => {
-    // Agrega el restaurante al conjunto si aún no está presente
-    if (!restaurantes.includes(producto.restaurante)) {
-      restaurantes.push(producto.restaurante);
+    // Verifica si el restaurante ya está presente en la lista
+    const restauranteExistente = restaurantes.find(
+      (r) => r.idProveedor === producto.restaurante
+    );
+
+    // Si no está presente, agrégalo a la lista
+    if (!restauranteExistente) {
+      restaurantes.push({ idProveedor: producto.restaurante });
     }
+
     return restaurantes;
   }, []);
+
   const {
     control,
     handleSubmit,
@@ -37,22 +50,53 @@ function Cart() {
     },
   });
 
+  const cartMutation = useMutation({
+    mutationFn: async (data) => {
+      return await createOrder(data);
+    },
+    onSuccess: async (response) => {
+      console.log("response", response);
+      Toast.show({
+        type: "success",
+        text1: "Message:",
+        text2: "Order created successfully - check the order section",
+        autoHide: true,
+      });
+      resetCart();
+      reset();
+      // Reset all the navigation stack
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Restaurants" }],
+      });
+    },
+    onError: async (error) => {
+      console.log("error", error);
+      Toast.show({
+        type: "error",
+        text1: "Message:",
+        text2: `Order failed, please try again - ${error.response.data.msg}`,
+        autoHide: false,
+      });
+    },
+  });
+
   const onSubmitCard = (data) => {
     // console.log("card", data);
     const productosData = productos
       .filter((item) => item.cantidad > 0)
       .map((item) => ({
-        id: item.id,
+        idProducto: item.id,
         precio: item.precio,
         cantidad: item.cantidad,
       }));
     const sendData = {
-      restaurantes: restaurantes,
+      proveedores: restaurantes,
       productos: productosData,
       pagado: true,
     };
     console.log("sendDataCard", sendData);
-    reset();
+    cartMutation.mutate(sendData);
   };
 
   const onSubmitCash = () => {
@@ -60,16 +104,17 @@ function Cart() {
     const productosData = productos
       .filter((item) => item.cantidad > 0)
       .map((item) => ({
-        id: item.id,
+        idProducto: item.id,
         precio: item.precio,
         cantidad: item.cantidad,
       }));
     const sendData = {
-      restaurantes: restaurantes,
+      proveedores: restaurantes,
       productos: productosData,
       pagado: false,
     };
     console.log("sendDataCash", sendData);
+    cartMutation.mutate(sendData);
   };
 
   return (
