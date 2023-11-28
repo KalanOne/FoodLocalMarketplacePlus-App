@@ -103,10 +103,18 @@ function Restaurants() {
         <ScrollView showsVerticalScrollIndicator={false}>
           {restaurantsData && restaurantsData.length > 0 ? (
             restaurantsData.map((item) => {
-              if (
-                (category.length > 0 && !category.includes(item.idCategoria)) ||
-                !item.nombre.toLowerCase().includes(searchQuery.toLowerCase())
-              ) {
+              const isCategoryFiltered =
+                category.length > 0 && !category.includes(item.idCategoria);
+
+              const isNameFiltered = !item.nombre
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
+
+              const isAddressFiltered = !item.direccion
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
+
+              if (isCategoryFiltered || (isNameFiltered && isAddressFiltered)) {
                 return null;
               }
               return (

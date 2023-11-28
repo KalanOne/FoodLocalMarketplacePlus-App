@@ -23,7 +23,10 @@ function RestaurantsInfo() {
   const route = useRoute();
   const { restaurant } = route.params;
   const [visible, setVisible] = useState(false);
-  const [markerCoordinate, setMarkerCoordinate] = useState(null);
+  const [markerCoordinate, setMarkerCoordinate] = useState({
+    latitude: restaurant.coordY,
+    longitude: restaurant.coordX,
+  });
   const [mapRegion, setMapRegion] = useState({
     latitude: restaurant.coordY, // Latitud inicial
     longitude: restaurant.coordX, // Longitud inicial
@@ -152,8 +155,8 @@ function RestaurantsInfo() {
           {markerCoordinate && (
             <Marker
               coordinate={markerCoordinate}
-              title="Restaurant location"
-              description="This is the restaurant location"
+              title={restaurant.nombre}
+              // description="This is the restaurant location"
             />
           )}
         </MapView>

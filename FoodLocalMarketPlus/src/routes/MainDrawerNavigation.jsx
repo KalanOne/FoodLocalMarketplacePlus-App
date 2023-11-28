@@ -33,7 +33,7 @@ function MainDrawerNavigation() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        initialRouteName={"StoreStackNavigation"}
+        initialRouteName={"ProfileStackNavigation"}
         screenOptions={{ headerShown: false }}
         drawerContent={(props) => (
           <CustomDrawerContent {...props} handleLogOut={handleLogOut} />
