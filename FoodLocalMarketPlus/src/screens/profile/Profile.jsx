@@ -303,5 +303,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 18,
     color: "rgb(186, 26, 26)",
+    textAlign: "center",
+    marginTop: 50,
   },
 });

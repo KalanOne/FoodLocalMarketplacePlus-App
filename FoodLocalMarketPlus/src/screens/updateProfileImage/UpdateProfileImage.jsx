@@ -7,6 +7,7 @@ import Toast from "react-native-toast-message";
 import { getMimeTypeFromExtension } from "../../utils/file";
 import { useMutation } from "react-query";
 import { updateUserImage } from "./api/imageApi";
+import { localhost } from "../../utils/constans";
 
 export { UpdateProfileImage };
 
@@ -20,7 +21,7 @@ function UpdateProfileImage() {
     },
     onSuccess: async (response) => {
       console.log("response", response);
-      setUrlImage(response.imageUrl.replace("{localhost}", "192.168.1.78"));
+      setUrlImage(response.imageUrl.replace("{localhost}", localhost));
       Toast.show({
         type: "success",
         text1: "Message:",
@@ -39,7 +40,7 @@ function UpdateProfileImage() {
   });
 
   const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,

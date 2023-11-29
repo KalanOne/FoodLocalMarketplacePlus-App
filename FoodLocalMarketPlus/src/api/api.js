@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { localhost } from "../utils/constans";
 
 export { http };
 
@@ -21,8 +22,8 @@ const http = async ({
     params,
     data,
     url: !dataWithFiles
-      ? `http://192.168.1.78:3000/${path}`
-      : `http://192.168.1.78:4000/${path}`,
+      ? `http://${localhost}:3000/${path}`
+      : `http://${localhost}:4000/${path}`,
     // url: `${process.env.REACT_APP_API_URL}/api/${path}`,
     headers: {
       Authorization: `Bearer ${await AsyncStorage.getItem("USER_TOKEN")}`,
@@ -34,7 +35,7 @@ const http = async ({
 
   const response = await axios(request);
 
-  console.log("response", response);
+  // console.log("response", response);
 
   return response.data.data;
 };
