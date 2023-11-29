@@ -4,7 +4,14 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { getUserInfo } from "./api/profileApi";
 import useAuthStore from "../../contexts/AuthStore";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Avatar, Button, Surface, Text } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Avatar,
+  Button,
+  MD2Colors,
+  Surface,
+  Text,
+} from "react-native-paper";
 import userImage from "../../../assets/user.jpg";
 import { CustomTextInput } from "../../components/CustomTextInput";
 import { useEffect, useState } from "react";
@@ -92,8 +99,14 @@ function Profile() {
   if (!profileData) {
     return (
       <DrawerContainer>
-        <View style={styles.container}>
-          <Text style={styles.errorText}>Profile not found</Text>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator
+            animating={true}
+            color={MD2Colors.indigo50}
+            size={"large"}
+          />
         </View>
       </DrawerContainer>
     );

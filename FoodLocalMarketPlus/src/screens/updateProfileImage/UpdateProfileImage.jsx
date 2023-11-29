@@ -30,7 +30,7 @@ function UpdateProfileImage() {
       });
     },
     onError: async (error) => {
-      console.log("error", error.response.data.msg);
+      // console.log("error", error.response.data.msg);
       Toast.show({
         type: "error",
         text1: "Message:",
