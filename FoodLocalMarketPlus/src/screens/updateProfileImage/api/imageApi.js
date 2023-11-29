@@ -5,7 +5,7 @@ export { updateUserImage };
 async function updateUserImage(data) {
   return await http({
     method: "POST",
-    path: `upload/`,
+    path: `imagen/usuario`,
     data: data,
     dataWithFiles: true,
   });

@@ -21,7 +21,7 @@ function UpdateProfileImage() {
     },
     onSuccess: async (response) => {
       console.log("response", response);
-      setUrlImage(response.imageUrl.replace("{localhost}", localhost));
+      setUrlImage(`http://${localhost}:3000${response}`);
       Toast.show({
         type: "success",
         text1: "Message:",
@@ -30,6 +30,7 @@ function UpdateProfileImage() {
       });
     },
     onError: async (error) => {
+      console.log("error", error.response.data.msg);
       Toast.show({
         type: "error",
         text1: "Message:",

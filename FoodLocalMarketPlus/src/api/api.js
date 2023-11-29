@@ -21,9 +21,7 @@ const http = async ({
     method,
     params,
     data,
-    url: !dataWithFiles
-      ? `http://${localhost}:3000/${path}`
-      : `http://${localhost}:4000/${path}`,
+    url: `http://${localhost}:3000/${path}`,
     // url: `${process.env.REACT_APP_API_URL}/api/${path}`,
     headers: {
       Authorization: `Bearer ${await AsyncStorage.getItem("USER_TOKEN")}`,

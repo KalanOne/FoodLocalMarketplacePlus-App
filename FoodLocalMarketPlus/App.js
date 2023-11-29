@@ -44,6 +44,7 @@ export default function App() {
           setUserToken(token);
           setEmail(email);
           setDisplay("App");
+          console.log("token", token);
         } else {
           setDisplay("Login");
           setUserToken(null);
