@@ -7,89 +7,6 @@ import { moneyFormatter } from "../../utils/formatters";
 
 export { SaucersInfo };
 
-const REVIEWS = [
-  {
-    description: "Great food and friendly service.",
-    stars: "5",
-    id: "1",
-  },
-  {
-    description: "The atmosphere was cozy and the food was delicious.",
-    stars: "4",
-    id: "2",
-  },
-  {
-    description:
-      "Disappointing experience. The food was cold and the service was slow.",
-    stars: "2",
-    id: "3",
-  },
-  {
-    description:
-      "Highly recommend this place. The staff was attentive and the food was excellent.",
-    stars: "5",
-    id: "4",
-  },
-  {
-    description: "Average food with average service.",
-    stars: "3",
-    id: "5",
-  },
-  {
-    description:
-      "Terrible experience. The food was overcooked and the staff was rude.",
-    stars: "1",
-    id: "6",
-  },
-  {
-    description: "The portions were small but the flavors were amazing.",
-    stars: "4",
-    id: "7",
-  },
-  {
-    description: "Decent food but the prices were too high.",
-    stars: "3",
-    id: "8",
-  },
-  {
-    description:
-      "The service was outstanding and the food exceeded my expectations.",
-    stars: "5",
-    id: "9",
-  },
-  {
-    description:
-      "I wouldn't recommend this place. The food was tasteless and the atmosphere was dull.",
-    stars: "2",
-    id: "10",
-  },
-  {
-    description: "The food was fresh and the presentation was beautiful.",
-    stars: "4",
-    id: "11",
-  },
-  {
-    description: "Great value for money. The portion sizes were generous.",
-    stars: "5",
-    id: "12",
-  },
-  {
-    description: "The service was slow and the food was mediocre.",
-    stars: "2",
-    id: "13",
-  },
-  {
-    description: "The staff was friendly and the ambiance was relaxing.",
-    stars: "4",
-    id: "14",
-  },
-  {
-    description: "Overrated restaurant. The food was nothing special.",
-    stars: "3",
-    id: "15",
-  },
-];
-
 function SaucersInfo() {
   const route = useRoute();
   const { saucer } = route.params;
@@ -116,7 +33,7 @@ function SaucersInfo() {
               {saucer.resenas.length != 0
                 ? (
                     saucer.resenas.reduce(
-                      (acc, review) => acc + parseInt(review.stars),
+                      (acc, review) => acc + parseInt(review.calificacion),
                       0
                     ) / saucer.resenas.length
                   ).toFixed(2)

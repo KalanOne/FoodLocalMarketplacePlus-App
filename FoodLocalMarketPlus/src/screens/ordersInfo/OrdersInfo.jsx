@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { StackContainer } from "../../components/StackContainer";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getOrderInfo } from "./api/orderApi";
 import {
@@ -23,6 +23,7 @@ export { OrdersInfo };
 function OrdersInfo() {
   const route = useRoute();
   const { orderID } = route.params;
+  const navigation = useNavigation();
 
   const orderQuery = useQuery({
     queryKey: ["ordersInfo", orderID],
@@ -73,7 +74,11 @@ function OrdersInfo() {
   return (
     <StackContainer>
       <ScrollView style={styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("OrderRestaurants", { orderID: orderID });
+          }}
+        >
           <Surface style={styles.surface2}>
             <Image
               source={
@@ -91,7 +96,11 @@ function OrdersInfo() {
             </Text>
           </Surface>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("OrderProducts", { orderID: orderID });
+          }}
+        >
           <Surface style={styles.surface2}>
             <Image
               source={

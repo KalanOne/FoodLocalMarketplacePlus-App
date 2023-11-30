@@ -17,14 +17,14 @@ function Reviews({ reviews }) {
   };
 
   const renderReview = (review) => {
-    const stars = Array.from({ length: review.stars }, (_, index) => (
+    const stars = Array.from({ length: review.calificacion }, (_, index) => (
       <Icon key={index} source="star" color={MD3Colors.primary10} size={20} />
     ));
 
     return (
       <View style={styles.reviewContainer} key={review.id}>
         <View style={styles.starsContainer}>{stars}</View>
-        <Text style={styles.reviewText}>{review.descripcion}</Text>
+        <Text style={styles.reviewText}>{review.resena}</Text>
       </View>
     );
   };

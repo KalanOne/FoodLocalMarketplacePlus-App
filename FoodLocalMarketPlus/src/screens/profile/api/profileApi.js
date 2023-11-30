@@ -9,10 +9,10 @@ async function getUserInfo(email) {
   });
 }
 
-async function updateUserInfo(email, data) {
+async function updateUserInfo(data) {
   return await http({
     method: "PUT",
-    path: `usuario/${email}`,
+    path: `usuario/update`,
     data: data,
   });
 }

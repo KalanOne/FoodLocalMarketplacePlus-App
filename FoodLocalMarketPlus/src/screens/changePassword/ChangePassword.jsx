@@ -5,12 +5,17 @@ import { useForm, useWatch } from "react-hook-form";
 import { CustomTextInput } from "../../components/CustomTextInput";
 import { Button, Surface, Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
+import { updateUserPassword } from "./api/passwordApi";
+import useAuthStore from "../../contexts/AuthStore";
+import Toast from "react-native-toast-message";
 
 export { ChangePassword };
 
 function ChangePassword() {
   const navigation = useNavigation();
+  const { email } = useAuthStore();
+  const queryClient = useQueryClient();
   const {
     control,
     handleSubmit,
@@ -30,7 +35,10 @@ function ChangePassword() {
 
   const updatePasswordMutation = useMutation({
     mutationFn: async (data) => {
-      return await updateUserPassword(email, { password: data.password });
+      return await updateUserPassword({
+        email: email,
+        password: data.password,
+      });
     },
     onSuccess: async (response) => {
       console.log("response", response);
@@ -44,6 +52,7 @@ function ChangePassword() {
       });
     },
     onError: async (error) => {
+      console.log("error", error.response.data);
       Toast.show({
         type: "error",
         text1: "Message:",

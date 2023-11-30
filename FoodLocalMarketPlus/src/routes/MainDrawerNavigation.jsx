@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import { ProfileStackNavigation } from "./ProfileStackNavigation";
 import { OrderStackNavigation } from "./OrderStackNavigation";
+import { MyReviews } from "../screens/myReviews/MyReviews";
 
 export { MainDrawerNavigation };
 
@@ -33,7 +34,7 @@ function MainDrawerNavigation() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        initialRouteName={"OrderStackNavigation"}
+        initialRouteName={"StoreStackNavigation"}
         screenOptions={{ headerShown: false }}
         drawerContent={(props) => (
           <CustomDrawerContent {...props} handleLogOut={handleLogOut} />
@@ -61,6 +62,15 @@ function MainDrawerNavigation() {
           name="OrderStackNavigation"
           component={OrderStackNavigation}
           options={{ title: "Orders" }}
+          screenOptions={{
+            unmountOnBlur: true, // Descargar componente al salir de la pantalla
+            lazy: true, // Cargar componente solo cuando se accede
+          }}
+        />
+        <Drawer.Screen
+          name="MyReviews"
+          component={MyReviews}
+          options={{ title: "My Reviews" }}
           screenOptions={{
             unmountOnBlur: true, // Descargar componente al salir de la pantalla
             lazy: true, // Cargar componente solo cuando se accede

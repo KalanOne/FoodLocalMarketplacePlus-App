@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { DrawerContainer } from "../../components/DrawerContainer";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
-import { getUserInfo } from "./api/profileApi";
+import { getUserInfo, updateUserInfo } from "./api/profileApi";
 import useAuthStore from "../../contexts/AuthStore";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import {
@@ -60,7 +60,11 @@ function Profile() {
 
   const updateInfoMutation = useMutation({
     mutationFn: async (data) => {
-      return await updateUserInfo(email, data);
+      const newData = {
+        ...data,
+        email: profileData.email,
+      };
+      return await updateUserInfo(newData);
     },
     onSuccess: async (response) => {
       console.log("response", response);
@@ -74,6 +78,7 @@ function Profile() {
       });
     },
     onError: async (error) => {
+      console.log("error", error.response.data);
       Toast.show({
         type: "error",
         text1: "Message:",

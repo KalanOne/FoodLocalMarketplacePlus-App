@@ -78,7 +78,8 @@ function StackSaucerContainer({ restaurant, children }) {
                     {restaurant.resenas.length != 0
                       ? (
                           restaurant.resenas.reduce(
-                            (acc, review) => acc + parseInt(review.stars),
+                            (acc, review) =>
+                              acc + parseInt(review.calificacion),
                             0
                           ) / restaurant.resenas.length
                         ).toFixed(2)
