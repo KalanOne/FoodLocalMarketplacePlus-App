@@ -1,9 +1,10 @@
-import { Button, RadioButton, Text } from "react-native-paper";
+import { Button, Modal, Portal, RadioButton, Text } from "react-native-paper";
 import { StackContainer } from "../../components/StackContainer";
 import useCartStore from "../../contexts/CartStore";
 import {
   KeyboardAvoidingView,
   ScrollView,
+  Share,
   StyleSheet,
   View,
 } from "react-native";
@@ -22,6 +23,16 @@ function Cart() {
   const { resetCart, productos, montoTotal } = useCartStore();
   const [value, setValue] = useState("Cash");
   const navigation = useNavigation();
+  const [visible, setVisible] = useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = {
+    backgroundColor: "rgb(240, 219, 255)",
+    padding: 20,
+    borderRadius: 10,
+    margin: 20,
+  };
 
   const totalProducts = productos.filter((item) => item.cantidad > 0).length;
   const restaurantes = productos.reduce((restaurantes, producto) => {
@@ -56,19 +67,20 @@ function Cart() {
     },
     onSuccess: async (response) => {
       console.log("response", response);
-      Toast.show({
-        type: "success",
-        text1: "Message:",
-        text2: "Order created successfully - check the order section",
-        autoHide: true,
-      });
-      resetCart();
+      // Toast.show({
+      //   type: "success",
+      //   text1: "Message:",
+      //   text2: "Order created successfully - check the order section",
+      //   autoHide: true,
+      // });
+      // resetCart();
       reset();
+      showModal();
       // Reset all the navigation stack
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "Restaurants" }],
-      });
+      // navigation.reset({
+      //   index: 0,
+      //   routes: [{ name: "Restaurants" }],
+      // });
     },
     onError: async (error) => {
       console.log("error", error);
@@ -115,6 +127,92 @@ function Cart() {
     };
     console.log("sendDataCash", sendData);
     cartMutation.mutate(sendData);
+  };
+
+  const shareOrder = async () => {
+    try {
+      const result = await Share.share({
+        message: `I just ordered ${productos.length} products from ${
+          restaurantes.length
+        } restaurants - Total: ${moneyFormatter(
+          montoTotal
+        )}\n\nFrom FoodLocalMarketPlus`,
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          console.log("shared with activity type of", result.activityType);
+        } else {
+          console.log("shared");
+        }
+      } else if (result.action === Share.dismissedAction) {
+        console.log("dismissed");
+        return false;
+      }
+      //   Toast.show({
+      //     type: "success",
+      //     text1: "Message:",
+      //     text2:
+      //       "Order created successfully and shared - check the order section",
+      //     autoHide: false,
+      //   });
+      //   resetCart();
+      //   hideModal();
+      //   // Reset all the navigation stack
+      //   navigation.reset({
+      //     index: 0,
+      //     routes: [{ name: "Restaurants" }],
+      //   });
+      // } else if (result.action === Share.dismissedAction) {
+      //   console.log("dismissed");
+      //   Toast.show({
+      //     type: "success",
+      //     text1: "Message:",
+      //     text2: "Order created successfully - check the order section",
+      //     autoHide: false,
+      //   });
+      //   resetCart();
+      //   hideModal();
+      //   // Reset all the navigation stack
+      //   navigation.reset({
+      //     index: 0,
+      //     routes: [{ name: "Restaurants" }],
+      //   });
+      // }
+
+      return true;
+    } catch (error) {
+      console.error("Error sharing order", error.message);
+      return false;
+    }
+  };
+
+  const handleShare = async () => {
+    const sharedSuccessfully = await shareOrder();
+
+    // if (sharedSuccessfully) {
+    //   Toast.show({
+    //     type: "success",
+    //     text1: "Message:",
+    //     text2:
+    //       "Order created successfully and shared - check the order section",
+    //     autoHide: true,
+    //   });
+    // } else {
+    //   Toast.show({
+    //     type: "success",
+    //     text1: "Message:",
+    //     text2: "Order created successfully - check the order section",
+    //     autoHide: true,
+    //   });
+    // }
+    // resetCart();
+    // hideModal();
+    // // Reset all the navigation stack
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{ name: "Restaurants" }],
+    // });
   };
 
   return (
@@ -214,6 +312,50 @@ function Cart() {
             </>
           )}
         </ScrollView>
+        <Portal>
+          <Modal
+            visible={visible}
+            onDismiss={() => {
+              hideModal;
+              resetCart();
+              hideModal();
+              // Reset all the navigation stack
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Restaurants" }],
+              });
+            }}
+            contentContainerStyle={containerStyle}
+          >
+            <Text>
+              Your order has been created successfully, check the order section
+            </Text>
+
+            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+              <Button style={{ marginTop: 30 }} onPress={handleShare}>
+                Share Order
+              </Button>
+              <Button
+                style={{ marginTop: 30 }}
+                onPress={() => {
+                  hideModal;
+                  resetCart();
+                  hideModal();
+                  // Reset all the navigation stack
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Restaurants" }],
+                  });
+                }}
+              >
+                Close
+              </Button>
+            </View>
+          </Modal>
+        </Portal>
+        {/* <Button style={{ marginTop: 30 }} onPress={showModal}>
+          Show
+        </Button> */}
       </KeyboardAvoidingView>
     </StackContainer>
   );

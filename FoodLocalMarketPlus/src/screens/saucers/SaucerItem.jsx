@@ -3,6 +3,7 @@ import { IconButton, MD3Colors, Surface, Text } from "react-native-paper";
 import { memo } from "react";
 import { moneyFormatter } from "../../utils/formatters";
 import { useNavigation } from "@react-navigation/native";
+import { localhost } from "../../utils/constans";
 
 export { SaucerItemMemo };
 
@@ -16,6 +17,7 @@ const SaucerItemMemo = memo(
   }) => {
     // console.log("saurcerID", saucer.id);
     const navigation = useNavigation();
+    console.log("SaucerItemMemo", saucer);
 
     const handleIncrement = () => {
       // Incrementar el valor
@@ -60,7 +62,10 @@ const SaucerItemMemo = memo(
         >
           <Image
             source={{
-              uri: "https://cdn7.kiwilimon.com/recetaimagen/1277/640x960/17199.jpg.webp",
+              uri:
+                saucer.imagen == "algo/Ruta"
+                  ? "https://cdn7.kiwilimon.com/recetaimagen/1277/640x960/17199.jpg.webp"
+                  : `http://${localhost}:3000${saucer.imagen}`,
               //   uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
             }}
             style={styles.image}

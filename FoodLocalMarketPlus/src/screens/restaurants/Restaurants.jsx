@@ -14,6 +14,7 @@ import {
   getRestaurantsProvs,
 } from "./api/restaurantsApi";
 import { DrawerRestaurantContainer } from "./DrawerRestaurantContainer";
+import { localhost } from "../../utils/constans";
 
 export { Restaurants };
 
@@ -130,7 +131,7 @@ function Restaurants() {
                       uri:
                         item.profilePic == "providerDefault.png"
                           ? "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png"
-                          : item.profilePic,
+                          : `http://${localhost}:3000${item.profilePic}`,
                     }}
                     style={styles.backgroundImage}
                   />

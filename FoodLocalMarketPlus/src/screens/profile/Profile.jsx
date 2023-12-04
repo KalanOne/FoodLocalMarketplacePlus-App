@@ -17,6 +17,7 @@ import { CustomTextInput } from "../../components/CustomTextInput";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
+import { localhost } from "../../utils/constans";
 export { Profile };
 
 function Profile() {
@@ -129,7 +130,9 @@ function Profile() {
             {profileData.profilePic != "algo/Ruta" ? (
               <Avatar.Image
                 size={100}
-                source={{ uri: profileData.profilePic }}
+                source={{
+                  uri: `http://${localhost}:3000${profileData.profilePic}`,
+                }}
               />
             ) : (
               <Avatar.Image size={100} source={userImage} />

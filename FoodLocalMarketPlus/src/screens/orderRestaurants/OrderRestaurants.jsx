@@ -12,6 +12,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getOrderInfo } from "../ordersInfo/api/orderApi";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { localhost } from "../../utils/constans";
 
 export { OrderRestaurants };
 
@@ -62,7 +63,9 @@ function OrderRestaurants() {
                   ? {
                       uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
                     }
-                  : { uri: item.proveedor.profilePic }
+                  : {
+                      uri: `http://${localhost}:3000${item.proveedor.profilePic}`,
+                    }
               }
               style={styles.image}
             />

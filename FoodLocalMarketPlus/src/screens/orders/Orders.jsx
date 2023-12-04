@@ -7,6 +7,7 @@ import { getUserInfo } from "../profile/api/profileApi";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import useAuthStore from "../../contexts/AuthStore";
 import { format, compareAsc } from "date-fns";
+import { localhost } from "../../utils/constans";
 
 export { Orders };
 
@@ -70,7 +71,9 @@ function Orders() {
                   ? {
                       uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
                     }
-                  : { uri: order.pedidoProveedor[0].proveedor.profilePic }
+                  : {
+                      uri: `http://${localhost}:3000${order.pedidoProveedor[0].proveedor.profilePic}`,
+                    }
               }
               style={styles.image}
             />

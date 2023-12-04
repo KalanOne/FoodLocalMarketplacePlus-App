@@ -12,6 +12,7 @@ import Toast from "react-native-toast-message";
 import { ProfileStackNavigation } from "./ProfileStackNavigation";
 import { OrderStackNavigation } from "./OrderStackNavigation";
 import { MyReviews } from "../screens/myReviews/MyReviews";
+import { Developers } from "../screens/developers/Developers";
 
 export { MainDrawerNavigation };
 
@@ -71,6 +72,15 @@ function MainDrawerNavigation() {
           name="MyReviews"
           component={MyReviews}
           options={{ title: "My Reviews" }}
+          screenOptions={{
+            unmountOnBlur: true, // Descargar componente al salir de la pantalla
+            lazy: true, // Cargar componente solo cuando se accede
+          }}
+        />
+        <Drawer.Screen
+          name="Developers"
+          component={Developers}
+          options={{ title: "Developers" }}
           screenOptions={{
             unmountOnBlur: true, // Descargar componente al salir de la pantalla
             lazy: true, // Cargar componente solo cuando se accede

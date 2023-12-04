@@ -21,6 +21,7 @@ import {
 import useCartStore from "../../contexts/CartStore";
 import { moneyFormatter } from "../../utils/formatters";
 import { getContrast } from "../../utils/colors";
+import { localhost } from "../../utils/constans";
 
 export { StackSaucerContainer };
 
@@ -37,7 +38,7 @@ function StackSaucerContainer({ restaurant, children }) {
             uri:
               restaurant.profilePic == "providerDefault.png"
                 ? "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png"
-                : restaurant.profilePic,
+                : `http://${localhost}:3000${restaurant.profilePic}`,
           }}
           style={styles.imageBackground}
         >

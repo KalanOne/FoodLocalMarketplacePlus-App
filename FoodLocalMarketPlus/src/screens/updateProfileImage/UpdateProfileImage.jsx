@@ -21,7 +21,7 @@ function UpdateProfileImage() {
     },
     onSuccess: async (response) => {
       console.log("response", response);
-      setUrlImage(`http://${localhost}:3000${response}`);
+      setUrlImage(`http://${localhost}:3000${response.profilePic}`);
       Toast.show({
         type: "success",
         text1: "Message:",

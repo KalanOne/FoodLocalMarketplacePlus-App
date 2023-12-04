@@ -16,6 +16,7 @@ import { Marker } from "react-native-maps";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { Reviews } from "../../components/Reviews";
+import { localhost } from "../../utils/constans";
 
 export { RestaurantsInfo };
 
@@ -62,7 +63,7 @@ function RestaurantsInfo() {
             uri:
               restaurant.profilePic == "providerDefault.png"
                 ? "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png"
-                : restaurant.profilePic,
+                : `http://${localhost}:3000${restaurant.profilePic}`,
           }}
           style={styles.backgroundImage}
         />

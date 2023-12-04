@@ -17,6 +17,7 @@ import {
   Text,
 } from "react-native-paper";
 import { format } from "date-fns";
+import { localhost } from "../../utils/constans";
 
 export { OrdersInfo };
 
@@ -87,7 +88,9 @@ function OrdersInfo() {
                   ? {
                       uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
                     }
-                  : { uri: order.pedidoProveedor[0].proveedor.profilePic }
+                  : {
+                      uri: `http://${localhost}:3000${order.pedidoProveedor[0].proveedor.profilePic}`,
+                    }
               }
               style={styles.image}
             />
@@ -106,9 +109,11 @@ function OrdersInfo() {
               source={
                 order.productos[0].producto.imagen == "algo/Ruta"
                   ? {
-                      uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
+                      uri: "https://cdn7.kiwilimon.com/recetaimagen/1277/640x960/17199.jpg.webp",
                     }
-                  : { uri: order.productos[0].producto.imagen }
+                  : {
+                      uri: `http://${localhost}:3000${order.productos[0].producto.imagen}`,
+                    }
               }
               style={styles.image}
             />
