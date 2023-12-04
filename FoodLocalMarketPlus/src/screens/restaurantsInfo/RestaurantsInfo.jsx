@@ -34,6 +34,8 @@ function RestaurantsInfo() {
     latitudeDelta: 0.0122,
     longitudeDelta: 0.0121,
   });
+  console.log("restaurant.coordY", restaurant.coordY);
+  console.log("restaurant.coordX", restaurant.coordX);
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -61,7 +63,8 @@ function RestaurantsInfo() {
         <Image
           source={{
             uri:
-              restaurant.profilePic == "providerDefault.png"
+              restaurant.profilePic == "providerDefault.png" ||
+              restaurant.profilePic == "algo/Ruta"
                 ? "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png"
                 : `http://${localhost}:3000${restaurant.profilePic}`,
           }}

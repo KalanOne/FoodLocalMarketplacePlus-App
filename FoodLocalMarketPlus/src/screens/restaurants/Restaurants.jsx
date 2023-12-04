@@ -45,7 +45,7 @@ function Restaurants() {
     },
     keepPreviousData: true,
     retry: 5,
-    refetchInterval: 60000,
+    refetchInterval: 3000,
     // enabled: isFocused,
     refetchIntervalInBackground: true,
     refetchOnWindowFocus: true,
@@ -129,7 +129,8 @@ function Restaurants() {
                   <Image
                     source={{
                       uri:
-                        item.profilePic == "providerDefault.png"
+                        item.profilePic == "providerDefault.png" ||
+                        item.profilePic == "algo/Ruta"
                           ? "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png"
                           : `http://${localhost}:3000${item.profilePic}`,
                     }}

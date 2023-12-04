@@ -178,9 +178,14 @@ function Profile() {
                   value: 10,
                   message: "Phone number must be at most 10 digits",
                 },
+                pattern: {
+                  value: /^[0-9]*$/,
+                  message: "Phone number must be only digits",
+                },
               }}
               errors={errors}
               disabled={!isEditing}
+              keyboardType="numeric"
             />
             <CustomTextInput
               control={control}
@@ -216,9 +221,14 @@ function Profile() {
                   value: 5,
                   message: "Zip code must be at most 5 digits",
                 },
+                pattern: {
+                  value: /^[0-9]*$/,
+                  message: "Zip code must be only digits",
+                },
               }}
               errors={errors}
               disabled={!isEditing}
+              keyboardType="numeric"
             />
             <CustomTextInput
               control={control}

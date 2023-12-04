@@ -97,6 +97,7 @@ function Register() {
             },
           }}
           errors={errors}
+          keyboardType="email-address"
         />
         <CustomTextInput
           control={control}
@@ -124,8 +125,13 @@ function Register() {
               value: 10,
               message: "Must be 10 digits",
             },
+            pattern: {
+              value: /^[0-9]*$/,
+              message: "Must be only digits",
+            },
           }}
           errors={errors}
+          keyboardType="numeric"
         />
         <CustomTextInput
           control={control}
@@ -177,8 +183,13 @@ function Register() {
               value: 5,
               message: "Must be 5 digits",
             },
+            pattern: {
+              value: /^[0-9]*$/,
+              message: "Must be only digits",
+            },
           }}
           errors={errors}
+          keyboardType="numeric"
         />
       </View>
 

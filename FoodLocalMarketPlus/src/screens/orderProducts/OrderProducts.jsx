@@ -30,7 +30,7 @@ function OrderProducts() {
     },
     keepPreviousData: false,
     retry: 5,
-    refetchInterval: 5000,
+    refetchInterval: 3000,
     refetchIntervalInBackground: true,
     refetchOnWindowFocus: true,
   });

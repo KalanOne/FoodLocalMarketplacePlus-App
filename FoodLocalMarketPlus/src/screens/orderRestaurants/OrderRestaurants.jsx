@@ -28,7 +28,7 @@ function OrderRestaurants() {
     },
     keepPreviousData: false,
     retry: 5,
-    refetchInterval: 5000,
+    refetchInterval: 3000,
     refetchIntervalInBackground: true,
     refetchOnWindowFocus: true,
   });
@@ -59,7 +59,8 @@ function OrderRestaurants() {
           <Surface style={styles.surface2} key={item.id}>
             <Image
               source={
-                item.proveedor.profilePic == "providerDefault.png"
+                item.proveedor.profilePic == "providerDefault.png" ||
+                item.proveedor.profilePic == "algo/Ruta"
                   ? {
                       uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
                     }

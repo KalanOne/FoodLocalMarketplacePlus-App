@@ -112,6 +112,7 @@ function Login() {
             },
           }}
           errors={errors}
+          keyboardType="email-address"
         />
         <CustomTextInput
           control={control}

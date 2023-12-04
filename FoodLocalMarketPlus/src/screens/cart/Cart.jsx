@@ -266,6 +266,7 @@ function Cart() {
                           required: "This field is required",
                         }}
                         errors={errors}
+                        keyboardType="numeric"
                       />
                       <CustomTextInput
                         control={control}
@@ -275,6 +276,7 @@ function Cart() {
                           required: "This field is required",
                         }}
                         errors={errors}
+                        keyboardType="numeric"
                       />
                     </View>
                   )}

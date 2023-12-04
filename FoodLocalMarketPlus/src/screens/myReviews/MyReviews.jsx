@@ -32,6 +32,7 @@ function MyReviews() {
     },
     keepPreviousData: false,
     retry: 5,
+    refetchInterval: 3000,
   });
   const myReviewsData = myReviewsQuery.data;
 
@@ -47,12 +48,12 @@ function MyReviews() {
       const message = `Check out my review for ${review.nombre}:\n${review.calificacion} starts!!!\n${review.resena}`;
       await Share.share({
         message: message,
+        url: "https://www.youtube.com/channel/UCcEqCfLS07ZDCd13ci4lShg",
+        title: "Check out my review",
       });
 
-      // Si la operación de compartir es exitosa, devuelve true
       return true;
     } catch (error) {
-      // Si ocurre un error o el usuario cancela, devuelve false
       console.error("Error sharing review", error.message);
       return false;
     }
@@ -61,14 +62,14 @@ function MyReviews() {
   const handleShareReview = async (review) => {
     const sharedSuccessfully = await shareReview(review);
 
-    if (sharedSuccessfully) {
-      Toast.show({
-        type: "success",
-        text1: "Review shared",
-        text2: "Your review was shared successfully",
-        autoHide: true, // Cambiado a true para que se oculte automáticamente
-      });
-    }
+    // if (sharedSuccessfully) {
+    //   Toast.show({
+    //     type: "success",
+    //     text1: "Review shared",
+    //     text2: "Your review was shared successfully",
+    //     autoHide: true, // Cambiado a true para que se oculte automáticamente
+    //   });
+    // }
   };
 
   if (!myReviewsData) {

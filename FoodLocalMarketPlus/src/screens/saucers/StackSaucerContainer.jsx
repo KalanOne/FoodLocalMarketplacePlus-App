@@ -36,7 +36,8 @@ function StackSaucerContainer({ restaurant, children }) {
         <ImageBackground
           source={{
             uri:
-              restaurant.profilePic == "providerDefault.png"
+              restaurant.profilePic == "providerDefault.png" ||
+              restaurant.profilePic == "algo/Ruta"
                 ? "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png"
                 : `http://${localhost}:3000${restaurant.profilePic}`,
           }}

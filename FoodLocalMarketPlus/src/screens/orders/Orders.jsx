@@ -24,7 +24,7 @@ function Orders() {
     keepPreviousData: true,
     retry: 5,
     enabled: isFocused,
-    refetchInterval: 5000,
+    refetchInterval: 3000,
     refetchIntervalInBackground: true,
     refetchOnWindowFocus: true,
   });
@@ -62,68 +62,75 @@ function Orders() {
         <Text variant="headlineLarge" style={styles.title}>
           Orders
         </Text>
-        {profileData.pedidos.map((order) => (
-          <Surface key={order.id} style={styles.surface}>
-            <Image
-              source={
-                order.pedidoProveedor[0].proveedor.profilePic ==
-                "providerDefault.png"
-                  ? {
-                      uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
-                    }
-                  : {
-                      uri: `http://${localhost}:3000${order.pedidoProveedor[0].proveedor.profilePic}`,
-                    }
-              }
-              style={styles.image}
-            />
-            <View style={styles.infoContainer}>
-              <Text style={styles.infoText}>
-                {statusOrder(order.estado)} -{" "}
-                {format(new Date(order.createdAt), "MMM dd HH:mm")}
-              </Text>
-              <Text style={styles.infoText}>
-                {order.pagado ? "Pagado" : "Pendiente de pago"}
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
+        {profileData.pedidos.map((order) => {
+          // console.log(
+          //   "order.pedidoProveedor[0].proveedor.profilePic",
+          //   order.pedidoProveedor[0].proveedor.profilePic
+          // );
+          return (
+            <Surface key={order.id} style={styles.surface}>
+              <Image
+                source={
+                  order.pedidoProveedor[0].proveedor.profilePic ==
+                    "providerDefault.png" ||
+                  order.pedidoProveedor[0].proveedor.profilePic == "algo/Ruta"
+                    ? {
+                        uri: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
+                      }
+                    : {
+                        uri: `http://${localhost}:3000${order.pedidoProveedor[0].proveedor.profilePic}`,
+                      }
+                }
+                style={styles.image}
+              />
+              <View style={styles.infoContainer}>
                 <Text style={styles.infoText}>
-                  Total: $
-                  {order.productos.reduce((total, producto) => {
-                    return total + producto.precio * producto.cantidad;
-                  }, 0)}
+                  {statusOrder(order.estado)} -{" "}
+                  {format(new Date(order.createdAt), "MMM dd HH:mm")}
                 </Text>
                 <Text style={styles.infoText}>
                   {order.pagado ? "Pagado" : "Pendiente de pago"}
                 </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text style={styles.infoText}>
+                    Total: $
+                    {order.productos.reduce((total, producto) => {
+                      return total + producto.precio * producto.cantidad;
+                    }, 0)}
+                  </Text>
+                  <Text style={styles.infoText}>
+                    {order.pagado ? "Pagado" : "Pendiente de pago"}
+                  </Text>
+                </View>
+                <Text style={styles.infoText}>
+                  {order.pedidoProveedor.map((pedidoProveedor, index) => {
+                    return (
+                      <Text key={pedidoProveedor.id}>
+                        {index == 0 ? "" : ", "}
+                        {pedidoProveedor.proveedor.nombre}
+                      </Text>
+                    );
+                  })}
+                </Text>
+                <Button
+                  mode="contained"
+                  onPress={() => {
+                    navigation.navigate("OrdersInfo", {
+                      orderID: order.id,
+                    });
+                  }}
+                >
+                  See details
+                </Button>
               </View>
-              <Text style={styles.infoText}>
-                {order.pedidoProveedor.map((pedidoProveedor, index) => {
-                  return (
-                    <Text key={pedidoProveedor.id}>
-                      {index == 0 ? "" : ", "}
-                      {pedidoProveedor.proveedor.nombre}
-                    </Text>
-                  );
-                })}
-              </Text>
-              <Button
-                mode="contained"
-                onPress={() => {
-                  navigation.navigate("OrdersInfo", {
-                    orderID: order.id,
-                  });
-                }}
-              >
-                See details
-              </Button>
-            </View>
-          </Surface>
-        ))}
+            </Surface>
+          );
+        })}
       </ScrollView>
     </DrawerContainer>
   );
