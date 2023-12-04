@@ -41,7 +41,7 @@ function ChangePassword() {
       });
     },
     onSuccess: async (response) => {
-      console.log("response", response);
+      // console.log("response", response);
       queryClient.invalidateQueries("profile");
       reset();
       Toast.show({
@@ -52,7 +52,7 @@ function ChangePassword() {
       });
     },
     onError: async (error) => {
-      console.log("error", error.response.data);
+      // console.log("error", error.response.data);
       Toast.show({
         type: "error",
         text1: "Message:",
@@ -99,7 +99,7 @@ function ChangePassword() {
           <Button
             mode="contained"
             onPress={handleSubmit((data) => {
-              console.log(data);
+              // console.log(data);
               updatePasswordMutation.mutate(data);
             })}
             style={{

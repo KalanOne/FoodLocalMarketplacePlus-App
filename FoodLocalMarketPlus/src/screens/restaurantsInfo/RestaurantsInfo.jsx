@@ -34,8 +34,8 @@ function RestaurantsInfo() {
     latitudeDelta: 0.0122,
     longitudeDelta: 0.0121,
   });
-  console.log("restaurant.coordY", restaurant.coordY);
-  console.log("restaurant.coordX", restaurant.coordX);
+  // console.log("restaurant.coordY", restaurant.coordY);
+  // console.log("restaurant.coordX", restaurant.coordX);
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);

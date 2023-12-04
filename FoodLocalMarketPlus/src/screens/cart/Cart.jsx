@@ -66,7 +66,7 @@ function Cart() {
       return await createOrder(data);
     },
     onSuccess: async (response) => {
-      console.log("response", response);
+      // console.log("response", response);
       // Toast.show({
       //   type: "success",
       //   text1: "Message:",
@@ -83,7 +83,7 @@ function Cart() {
       // });
     },
     onError: async (error) => {
-      console.log("error", error);
+      // console.log("error", error);
       Toast.show({
         type: "error",
         text1: "Message:",
@@ -107,12 +107,12 @@ function Cart() {
       productos: productosData,
       pagado: true,
     };
-    console.log("sendDataCard", sendData);
+    // console.log("sendDataCard", sendData);
     cartMutation.mutate(sendData);
   };
 
   const onSubmitCash = () => {
-    console.log("cash");
+    // console.log("cash");
     const productosData = productos
       .filter((item) => item.cantidad > 0)
       .map((item) => ({
@@ -125,7 +125,7 @@ function Cart() {
       productos: productosData,
       pagado: false,
     };
-    console.log("sendDataCash", sendData);
+    // console.log("sendDataCash", sendData);
     cartMutation.mutate(sendData);
   };
 

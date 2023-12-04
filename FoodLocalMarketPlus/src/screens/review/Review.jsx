@@ -21,7 +21,7 @@ export { Review };
 function Review() {
   const route = useRoute();
   const { id, productOrRestaurant, idrel, nombre } = route.params;
-  console.log("id", id);
+  // console.log("id", id);
   const { email } = useAuthStore();
   const navigation = useNavigation();
   const {
@@ -85,7 +85,7 @@ function Review() {
       navigation.goBack();
     },
     onError: (error) => {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       Toast.show({
         type: "error",
         text1: "Message:",

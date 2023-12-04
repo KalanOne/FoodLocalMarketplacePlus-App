@@ -17,7 +17,7 @@ const SaucerItemMemo = memo(
   }) => {
     // console.log("saurcerID", saucer.id);
     const navigation = useNavigation();
-    console.log("SaucerItemMemo", saucer);
+    // console.log("SaucerItemMemo", saucer);
 
     const handleIncrement = () => {
       // Incrementar el valor

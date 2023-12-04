@@ -68,7 +68,7 @@ function Profile() {
       return await updateUserInfo(newData);
     },
     onSuccess: async (response) => {
-      console.log("response", response);
+      // console.log("response", response);
       setIsEditing(false);
       queryClient.invalidateQueries("profile");
       Toast.show({
@@ -79,7 +79,7 @@ function Profile() {
       });
     },
     onError: async (error) => {
-      console.log("error", error.response.data);
+      // console.log("error", error.response.data);
       Toast.show({
         type: "error",
         text1: "Message:",

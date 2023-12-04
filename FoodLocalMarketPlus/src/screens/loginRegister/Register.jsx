@@ -60,7 +60,7 @@ function Register() {
   });
 
   const onSubmit = (data) => {
-    console.log("data", data);
+    // console.log("data", data);
     registerMutation.mutate(data);
   };
 

@@ -3,7 +3,7 @@ import { http } from "../../../api/api";
 export { resenaProduct, resenaRestaurant };
 
 async function resenaProduct(data) {
-  console.log(data);
+  // console.log(data);
   return await http({
     method: "POST",
     path: `producto/resena`,
@@ -12,7 +12,7 @@ async function resenaProduct(data) {
 }
 
 async function resenaRestaurant(data) {
-  console.log(data);
+  // console.log(data);
   return await http({
     method: "POST",
     path: `proveedor/resena`,

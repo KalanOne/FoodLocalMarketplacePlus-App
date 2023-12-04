@@ -34,7 +34,7 @@ function OrderRestaurants() {
   });
 
   const order = orderQuery.data;
-  console.log("order", JSON.stringify(order, null, 2));
+  // console.log("order", JSON.stringify(order, null, 2));
 
   if (!order) {
     return (

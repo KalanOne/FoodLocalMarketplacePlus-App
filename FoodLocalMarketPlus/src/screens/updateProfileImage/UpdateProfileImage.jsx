@@ -20,7 +20,7 @@ function UpdateProfileImage() {
       return await updateUserImage(data);
     },
     onSuccess: async (response) => {
-      console.log("response", response);
+      // console.log("response", response);
       setUrlImage(`http://${localhost}:3000${response.profilePic}`);
       Toast.show({
         type: "success",
@@ -48,7 +48,7 @@ function UpdateProfileImage() {
     });
 
     if (!result.canceled) {
-      console.log("result", result);
+      // console.log("result", result);
       setImage(result.assets[0]);
     } else {
       Toast.show({
